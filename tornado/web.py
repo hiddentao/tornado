@@ -1001,10 +1001,12 @@ class Application(object):
         elif settings.get('session_storage').startswith('mongodb'):
             try:
                 import pymongo
-                h, p, d = session.MongoDBSession._parse_connection_details(
+                usr, pwd, h, p, d = session.MongoDBSession._parse_connection_details(
                     settings['session_storage'])
                 conn = pymongo.Connection(host=h, port=p)
                 db = pymongo.database.Database(conn, d)
+                if None != usr:
+                    db.authenticate(usr,pwd)
                 db.tornado_sessions.ensure_index('session_id', unique=True)
                 settings['_db'] = pymongo.collection.Collection(db, 'tornado_sessions')
             except ImportError:

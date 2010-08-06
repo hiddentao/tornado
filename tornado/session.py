@@ -674,9 +674,24 @@ try:
 
         @staticmethod
         def _parse_connection_details(details):
+            
+            # mongodb://[user]:[password]@[host[:port]]/db
+            if -1 != details.find('@'):
+                match = re.match('mongodb://(\w+):(.*?)@([\w|\.]+)(?::(\d+))?/(\S+)', details)
+                username = match.group(1)
+                password = match.group(2) or ""
+                hostname = match.group(3)
+                port = int(match.group(4)) or 27017
+                database = match.group(5)
             # mongodb://[host[:port]]/db
-            match = re.match('mongodb://([\S|\.]+?)?(?::(\d+))?/(\S+)', details)
-            return match.group(1), match.group(2), match.group(3) # host, port, database
+            else: 
+                match = re.match('mongodb://([\S|\.]+?)?(?::(\d+))?/(\S+)', details)
+                username = password = None
+                hostname = match.group(1)
+                port = int(match.group(2)) or 27017
+                database = match.group(3)
+                                                   
+            return username, password, hostname, port, database
 
         def save(self):
             """Upsert a document to the tornado_sessions collection.
