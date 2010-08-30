@@ -310,6 +310,14 @@ class RequestHandler(object):
         for part in parts: hash.update(part)
         return hash.hexdigest()
 
+    def javascript_files(self):
+        """Returns a list of JavaScript files that will be linked to from the page."""
+        return None
+
+    def css_files(self):
+        """Returns a CSS string that will be linked to from the page."""
+        return None
+
     def redirect(self, url, permanent=False):
         """Sends a redirect to the given (optionally relative) URL."""
         if self._headers_written:
@@ -341,9 +349,9 @@ class RequestHandler(object):
 
         # Insert the additional JS and CSS added by the modules on the page
         js_embed = []
-        js_files = []
+        js_files = self.javascript_files() or []
         css_embed = []
-        css_files = []
+        css_files = self.css_files() or []
         html_heads = []
         for module in getattr(self, "_active_modules", {}).itervalues():
             embed_part = module.embedded_javascript()
