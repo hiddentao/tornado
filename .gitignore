@@ -1,6 +1,7 @@
 *.pyc
 *.so
 *~
+.settings/
 build
 .project
 .pydevproject
