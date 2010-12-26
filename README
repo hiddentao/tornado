@@ -7,6 +7,12 @@ available at http://www.tornadoweb.org/
 Tornado is licensed under the Apache Licence, Version 2.0
 (http://www.apache.org/licenses/LICENSE-2.0.html).
 
+~~~
+This version of Tornado is based on the session-enabled version of Tornado forked 
+from https://github.com/milancermak/tornado.
+~~~
+
+
 Installation
 ============
 To install:
