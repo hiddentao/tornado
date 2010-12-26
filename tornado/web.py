@@ -50,7 +50,6 @@ import cStringIO
 import calendar
 import contextlib
 import datetime
-import database
 import email.utils
 import functools
 import gzip
@@ -1093,7 +1092,8 @@ class Application(object):
                 settings['session_storage'] = 'dir://'+tempfile.mkdtemp(
                     prefix='tornado_sessions')
         elif settings.get('session_storage').startswith('mysql'):
-            # create a connection to MySQL 
+            # create a connection to MySQL
+            import database
             u, p, h, d = session.MySQLSession._parse_connection_details(
                 settings['session_storage'])
             settings['_db'] = database.Connection(h, d, user=u, password=p)
